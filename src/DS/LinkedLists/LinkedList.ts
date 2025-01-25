@@ -1,17 +1,24 @@
-import {Node} from "./Node";
+import {Node} from "../Node";
 
 export class LinkedList {
-  public head: Node;
-  public tail: Node;
+  public head: Node | null = null;
+  public tail: Node | null = null;
   public length: number = 0;
 
   public constructor(data?: any) {
-    this.head = new Node(data);
-    this.tail = this.head;
-    data ? this.length++ : null;
+    if (data !== undefined) {
+      this.head = new Node(data);
+      this.tail = this.head;
+      data ? this.length++ : null;
+    }
   }
 
   public insert(data: any, index?: number) {
+    if ((index && index > this.length - 1) || index === undefined) {
+      this.push(data);
+      return;
+    }
+
     if (index === 0) {
       const newNode = new Node(data);
       newNode.next = this.head;
@@ -21,13 +28,7 @@ export class LinkedList {
       return;
     }
 
-    if (this.isEmpty() || (index && index > this.length - 1) || !index) {
-      this.push(data);
-      return;
-    }
-
     const newNode = new Node(data);
-
     let temp = this.head;
 
     for (let i = 1; i <= index; i++) {
@@ -37,18 +38,19 @@ export class LinkedList {
         break;
       }
 
-      temp = temp.next!;
+      temp = temp!.next!;
     }
 
     this.length++;
   }
 
   public push(data: any) {
+    const newNode = new Node(data);
     if (this.isEmpty()) {
-      this.head = new Node(data);
+      this.head = newNode;
       this.tail = this.head;
     } else {
-      this.tail!.next = new Node(data);
+      this.tail!.next = newNode;
       this.tail = this.tail!.next;
     }
 
@@ -61,7 +63,7 @@ export class LinkedList {
       return;
     }
 
-    let current = this.head;
+    let current = this.head!;
 
     for (let i = 1; i <= this.length; i++) {
       if (current.data === target) {
@@ -81,7 +83,9 @@ export class LinkedList {
       return;
     }
 
-    this.head = this.head.next!;
+    this.head = this.head!.next!;
+
+    if (this.length === 1) this.tail = null;
 
     this.length--;
   }
@@ -99,23 +103,19 @@ export class LinkedList {
     let current = this.head;
     let previous: Node | null = null;
 
-    while (current !== null) {
-      if (current.data === target) {
-        console.log(`Target found: ${current.data}`);
-
-        if (previous !== null) {
-          previous.next = current.next;
-        } else {
-          this.head = current.next!;
-        }
-
-        this.length--;
-        return;
+    for (let i = 1; i < this.length; i++) {
+      if (current!.data === target) {
+        console.log(`Target ${target} found`);
+        previous!.next = current!.next;
+        current = null;
+        console.log(`Target deleted`);
+        break;
       }
-
       previous = current;
-      current = current.next!;
+      current = current!.next;
     }
+
+    this.length--;
 
     console.log(`Target ${target} not found in the list.`);
   }
@@ -130,32 +130,40 @@ export class LinkedList {
       this.head = null!;
     }
 
-    let current = this.head;
+    let current = this.head!;
 
     while (current.next!.next !== null) current = current.next!;
 
-    // Remove the last node
     current.next = null;
+    this.tail = current;
 
     this.length--;
   }
 
   public isEmpty() {
-    if (this.length === 0) return true;
-    return false;
+    return this.length === 0;
   }
 
   public traversal(index: number = this.length) {
+    if (index > this.length) {
+      console.log("Index exceeds the length of the list");
+      return;
+    }
+
     const arr = [];
-    let current = this.head;
+    let current = this.head!;
 
     for (let i = 0; i < index; i++) {
       arr.push(current.data);
-      console.log(current);
-
       current = current.next!;
     }
 
     console.log(arr);
+  }
+
+  public clear() {
+    this.head = null!;
+    this.tail = null!;
+    this.length = 0;
   }
 }

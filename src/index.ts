@@ -2,8 +2,8 @@
  * Index.ts
  */
 
-import {LinkedList} from "./DS/LinkedList";
-import {LinkedListStack} from "./DS/LinkedListStack";
+import {LinkedList} from "./DS/LinkedLists/LinkedList";
+import {LinkedListStack} from "./DS/Stacks/LinkedListStack";
 
 const linkedList = new LinkedList();
 

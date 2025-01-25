@@ -1,4 +1,4 @@
-import {Node} from "./Node";
+import {Node} from "../Node";
 
 export class LinkedListStack {
   private head: Node | null;
