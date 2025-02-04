@@ -5,7 +5,7 @@ export class LinkedList {
   public tail: Node | null = null;
   public length: number = 0;
 
-  public constructor(data?: any) {
+  constructor(data?: any) {
     if (data !== undefined) {
       this.head = new Node(data);
       this.tail = this.head;
