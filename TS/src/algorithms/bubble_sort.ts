@@ -1,15 +1,17 @@
-export function bubbleSort(arr: any[], n: number) {
+export function bubbleSort(arr: any[], n: number = arr.length) {
   let i, j, temp;
-  let swapped: boolean;
+  let swapped;
 
-  for (i = 0; i < n - 1; i++) {
+  for (i = 0; i < n; i++) {
     swapped = false;
 
-    for (j = 0; j < n - i - 1; j++) {
+    for (j = 0; j < n; j++) {
       if (arr[j] > arr[j + 1]) {
-        let temp = arr[j];
+        temp = arr[j];
         arr[j] = arr[j + 1];
         arr[j + 1] = temp;
+
+        swapped = true;
       }
     }
 
